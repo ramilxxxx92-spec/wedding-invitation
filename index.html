@@ -7,23 +7,22 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="bg-blur bg-blur-1"></div>
-  <div class="bg-blur bg-blur-2"></div>
-  <div class="bg-noise"></div>
+  <div class="bg bg-1"></div>
+  <div class="bg bg-2"></div>
+  <div class="grain"></div>
 
   <main class="app">
     <section id="slotScreen" class="screen active">
-      <div class="hero-card glass">
-        <div class="hero-top">
+      <div class="hero-card">
+        <div class="hero-head">
           <span class="tiny-label">WEDDING INVITATION</span>
+          <h1 class="names">Alexei & Elizaveta</h1>
+          <p class="subtitle">Try your luck and open our day</p>
         </div>
 
-        <h1 class="names">Alexei & Elizaveta</h1>
-        <p class="date-preview">00.00.2026</p>
-
-        <div class="machine glass-strong">
-          <div class="machine-top">
-            <div class="lights">
+        <div id="machine" class="machine">
+          <div class="machine-cap">
+            <div class="lamp-row">
               <span></span>
               <span></span>
               <span></span>
@@ -32,33 +31,52 @@
             </div>
           </div>
 
-          <div class="slot-window">
-            <div class="reel-frame">
-              <div class="reel" id="reel1">
-                <div class="symbol">💍</div>
+          <div class="machine-body">
+            <div class="machine-top-panel">
+              <div class="hearts-row">
+                <span>♡</span>
+                <span>♡</span>
+                <span>♡</span>
+                <span>♡</span>
+                <span>♡</span>
               </div>
             </div>
-            <div class="reel-frame">
-              <div class="reel" id="reel2">
-                <div class="symbol">💍</div>
+
+            <div class="slot-window">
+              <div class="reel-frame">
+                <div class="reel" id="reel1">
+                  <div class="symbol">💍</div>
+                </div>
               </div>
+              <div class="reel-frame">
+                <div class="reel" id="reel2">
+                  <div class="symbol">💍</div>
+                </div>
+              </div>
+              <div class="reel-frame">
+                <div class="reel" id="reel3">
+                  <div class="symbol">💍</div>
+                </div>
+              </div>
+
+              <div class="payline"></div>
             </div>
-            <div class="reel-frame">
-              <div class="reel" id="reel3">
-                <div class="symbol">💍</div>
-              </div>
+
+            <div class="machine-controls">
+              <div class="mini-panel"></div>
+              <button id="spinBtn" class="main-btn">Крутить</button>
+              <div class="mini-panel"></div>
             </div>
           </div>
 
-          <div class="machine-bottom">
-            <button id="spinBtn" class="main-btn">Крутить</button>
-          </div>
-
-          <div class="lever"></div>
+          <button id="leverBtn" class="lever-btn" aria-label="Потянуть ручку">
+            <span class="lever-stick"></span>
+            <span class="lever-ball"></span>
+          </button>
         </div>
 
         <div id="resultBlock" class="result-block hidden">
-          <p class="win-text">Jackpot of love</p>
+          <p class="win-text">Wedding jackpot</p>
           <h2 class="final-date">00.00.2026</h2>
           <button id="scheduleBtn" class="secondary-btn">Смотреть расписание</button>
         </div>
@@ -66,8 +84,8 @@
     </section>
 
     <section id="scheduleScreen" class="screen">
-      <div class="info-card glass">
-        <div class="tiny-label">SCHEDULE</div>
+      <div class="info-card">
+        <span class="tiny-label">SCHEDULE</span>
         <h2 class="info-title">Расписание дня</h2>
 
         <div class="timeline">
