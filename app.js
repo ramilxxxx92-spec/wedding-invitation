@@ -6,7 +6,7 @@ const reel1 = document.getElementById("reel1");
 const reel2 = document.getElementById("reel2");
 const reel3 = document.getElementById("reel3");
 
-const resultBlock = document.getElementById("resultBlock");
+const winOverlay = document.getElementById("winOverlay");
 const slotScreen = document.getElementById("slotScreen");
 const scheduleScreen = document.getElementById("scheduleScreen");
 
@@ -28,7 +28,10 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  initReels();
+});
 
 function getItemHeight() {
   const frame = document.querySelector(".reel-frame");
@@ -48,7 +51,6 @@ function initReels() {
   setReelSingle(reel3, "💍");
 }
 initReels();
-window.addEventListener("resize", initReels);
 
 function vibrate(pattern = [40]) {
   if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
@@ -101,8 +103,9 @@ function playTone(frequency, duration, type = "sine", volume = 0.03) {
 }
 
 function playStartSound() {
-  playTone(220, 100, "triangle", 0.04);
-  setTimeout(() => playTone(260, 120, "triangle", 0.03), 90);
+  playTone(210, 90, "triangle", 0.04);
+  setTimeout(() => playTone(250, 110, "triangle", 0.035), 90);
+  setTimeout(() => playTone(290, 120, "triangle", 0.03), 180);
 }
 
 function playWinSound() {
@@ -164,12 +167,12 @@ function switchScreen(showSchedule) {
 
 function launchConfetti(duration = 1800) {
   const particles = [];
-  const colors = ["#ffffff", "#ffdbe8", "#ffe9ef", "#ffd1dc", "#fff0f4"];
+  const colors = ["#ffffff", "#ffdbe8", "#ffe9ef", "#ffd1dc", "#fff0f4", "#fff7d9"];
 
-  for (let i = 0; i < 170; i++) {
+  for (let i = 0; i < 190; i++) {
     particles.push({
       x: canvas.width / 2,
-      y: canvas.height * 0.2,
+      y: canvas.height * 0.24,
       r: Math.random() * 4 + 2,
       color: colors[Math.floor(Math.random() * colors.length)],
       angle: Math.random() * Math.PI * 2,
@@ -216,7 +219,7 @@ async function startSpin() {
   isSpinning = true;
 
   spinBtn.disabled = true;
-  resultBlock.classList.add("hidden");
+  winOverlay.classList.add("hidden");
 
   vibrate([40, 40, 70]);
   playStartSound();
@@ -230,8 +233,8 @@ async function startSpin() {
   playWinSound();
   launchConfetti();
 
-  await delay(250);
-  resultBlock.classList.remove("hidden");
+  await delay(260);
+  winOverlay.classList.remove("hidden");
 
   spinBtn.disabled = false;
   isSpinning = false;
