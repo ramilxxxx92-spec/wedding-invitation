@@ -2,37 +2,96 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Alexei & Elizaveta</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body style="text-align:center; font-family:sans-serif; background:#f8f1ee;">
+<body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+  <div class="bg-noise"></div>
 
-  <h1>Alexei & Elizaveta 💍</h1>
-  <p>Нажмите, чтобы открыть приглашение</p>
+  <main class="app">
+    <section id="slotScreen" class="screen active">
+      <div class="hero-card glass">
+        <div class="hero-top">
+          <span class="tiny-label">WEDDING INVITATION</span>
+        </div>
 
-  <button onclick="start()">Крутить</button>
+        <h1 class="names">Alexei & Elizaveta</h1>
+        <p class="date-preview">00.00.2026</p>
 
-  <div id="result" style="margin-top:20px; font-size:40px;"></div>
+        <div class="machine glass-strong">
+          <div class="machine-top">
+            <div class="lights">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
 
-  <script>
-    function start() {
-      const result = document.getElementById("result");
+          <div class="slot-window">
+            <div class="reel-frame">
+              <div class="reel" id="reel1">
+                <div class="symbol">💍</div>
+              </div>
+            </div>
+            <div class="reel-frame">
+              <div class="reel" id="reel2">
+                <div class="symbol">💍</div>
+              </div>
+            </div>
+            <div class="reel-frame">
+              <div class="reel" id="reel3">
+                <div class="symbol">💍</div>
+              </div>
+            </div>
+          </div>
 
-      result.innerHTML = "💍 💍 💍";
+          <div class="machine-bottom">
+            <button id="spinBtn" class="main-btn">Крутить</button>
+          </div>
 
-      setTimeout(() => {
-        result.innerHTML = "❤️ 💍 ❤️";
-      }, 1000);
+          <div class="lever"></div>
+        </div>
 
-      setTimeout(() => {
-        result.innerHTML = "🕊 💍 🕊";
-      }, 2000);
+        <div id="resultBlock" class="result-block hidden">
+          <p class="win-text">Jackpot of love</p>
+          <h2 class="final-date">00.00.2026</h2>
+          <button id="scheduleBtn" class="secondary-btn">Смотреть расписание</button>
+        </div>
+      </div>
+    </section>
 
-      setTimeout(() => {
-        result.innerHTML = "❤️ ❤️ ❤️ 🎉";
-      }, 3000);
-    }
-  </script>
+    <section id="scheduleScreen" class="screen">
+      <div class="info-card glass">
+        <div class="tiny-label">SCHEDULE</div>
+        <h2 class="info-title">Расписание дня</h2>
 
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-time">17:00</div>
+            <div class="timeline-text">Сбор гостей</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">17:30</div>
+            <div class="timeline-text">Церемония</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-time">18:30</div>
+            <div class="timeline-text">Праздничный ужин</div>
+          </div>
+        </div>
+
+        <button id="backBtn" class="secondary-btn">Назад</button>
+      </div>
+    </section>
+  </main>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="app.js"></script>
 </body>
 </html>
