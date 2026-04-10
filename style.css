@@ -1,3 +1,29 @@
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #f8edf1, #f4dbe3);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 430px;
+  text-align: center;
+}
+
+.screen.active {
+  display: block;
+}
+
 .machine-wrap {
   position: relative;
   width: 100%;
@@ -8,8 +34,6 @@
 .machine-image {
   width: 100%;
   display: block;
-  user-select: none;
-  -webkit-user-drag: none;
 }
 
 .slot-overlay {
@@ -29,33 +53,85 @@
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  background: transparent;
 }
 
 .reel {
   position: absolute;
-  inset: 0 auto auto 0;
   width: 100%;
-  will-change: transform;
 }
 
 .symbol {
-  height: 100%;
-  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(28px, 6vw, 42px);
-  user-select: none;
+  font-size: 34px;
 }
 
-.payline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  transform: translateY(-50%);
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+.controls {
+  margin-top: 14px;
+}
+
+.main-btn,
+.secondary-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.main-btn {
+  background: white;
+  color: #b25578;
+}
+
+.secondary-btn {
+  background: #ffffffc9;
+  color: #b25578;
+}
+
+.result-block {
+  margin-top: 18px;
+}
+
+.hidden {
+  display: none;
+}
+
+.final-date {
+  font-size: 34px;
+  color: #8e5f72;
+}
+
+.info-card {
+  background: rgba(255,255,255,0.55);
+  border-radius: 28px;
+  padding: 24px 18px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.65);
+  border-radius: 18px;
+}
+
+.timeline-time {
+  min-width: 58px;
+  font-weight: 700;
+}
+
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
   pointer-events: none;
 }
