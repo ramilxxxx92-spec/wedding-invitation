@@ -8,43 +8,50 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+  <div class="bg bg-1"></div>
+  <div class="bg bg-2"></div>
+  <div class="grain"></div>
+
   <main class="app">
     <section id="slotScreen" class="screen active">
-      <div class="machine-wrap">
-        <img src="machine.png" alt="Slot machine" class="machine-image" />
+      <div class="hero-card">
+        <div class="machine-wrap">
+          <img src="machine.png" alt="Slot machine" class="machine-image" />
 
-        <div class="slot-overlay">
-          <div class="reel-frame">
-            <div class="reel" id="reel1">
-              <div class="symbol">💍</div>
+          <div class="slot-overlay">
+            <div class="reel-frame">
+              <div class="reel" id="reel1">
+                <div class="symbol">💍</div>
+              </div>
             </div>
-          </div>
-          <div class="reel-frame">
-            <div class="reel" id="reel2">
-              <div class="symbol">💍</div>
+            <div class="reel-frame">
+              <div class="reel" id="reel2">
+                <div class="symbol">💍</div>
+              </div>
             </div>
-          </div>
-          <div class="reel-frame">
-            <div class="reel" id="reel3">
-              <div class="symbol">💍</div>
+            <div class="reel-frame">
+              <div class="reel" id="reel3">
+                <div class="symbol">💍</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="controls">
-        <button id="spinBtn" class="main-btn">Крутить</button>
-      </div>
+        <div class="controls">
+          <button id="spinBtn" class="main-btn">Крутить</button>
+        </div>
 
-      <div id="resultBlock" class="result-block hidden">
-        <p class="win-text">Wedding jackpot</p>
-        <h2 class="final-date">29.08.2026</h2>
-        <button id="scheduleBtn" class="secondary-btn">Смотреть расписание</button>
+        <div id="resultBlock" class="result-block hidden">
+          <p class="win-text">Wedding jackpot</p>
+          <h2 class="final-date">29.08.2026</h2>
+          <button id="scheduleBtn" class="secondary-btn">Смотреть расписание</button>
+        </div>
       </div>
     </section>
 
     <section id="scheduleScreen" class="screen">
       <div class="info-card">
+        <span class="tiny-label">SCHEDULE</span>
         <h2 class="info-title">Расписание дня</h2>
 
         <div class="timeline">
