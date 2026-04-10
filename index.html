@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alexei & Elizaveta</title>
+</head>
+<body style="text-align:center; font-family:sans-serif; background:#f8f1ee;">
+
+  <h1>Alexei & Elizaveta 💍</h1>
+  <p>Нажмите, чтобы открыть приглашение</p>
+
+  <button onclick="start()">Крутить</button>
+
+  <div id="result" style="margin-top:20px; font-size:40px;"></div>
+
+  <script>
+    function start() {
+      const result = document.getElementById("result");
+
+      result.innerHTML = "💍 💍 💍";
+
+      setTimeout(() => {
+        result.innerHTML = "❤️ 💍 ❤️";
+      }, 1000);
+
+      setTimeout(() => {
+        result.innerHTML = "🕊 💍 🕊";
+      }, 2000);
+
+      setTimeout(() => {
+        result.innerHTML = "❤️ ❤️ ❤️ 🎉";
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
