@@ -6,9 +6,10 @@ const mapBtn = document.getElementById("mapBtn");
 const rsvpForm = document.getElementById("rsvpForm");
 const rsvpSuccess = document.getElementById("rsvpSuccess");
 const guestNameInput = document.getElementById("guestName");
-
-const countdownMain = document.getElementById("countdownMain");
-const countdownDetails = document.getElementById("countdownDetails");
+const attendingSelect = document.getElementById("attending");
+const rsvpExtra = document.getElementById("rsvpExtra");
+const hiddenRsvpFrame = document.getElementById("hiddenRsvpFrame");
+const rsvpSubmitBtn = document.getElementById("rsvpSubmitBtn");
 
 const reel1 = document.getElementById("reel1");
 const reel2 = document.getElementById("reel2");
@@ -21,11 +22,6 @@ const detailsScreen = document.getElementById("detailsScreen");
 const canvas = document.getElementById("confettiCanvas");
 const ctx = canvas.getContext("2d");
 
-const RSVP_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbz0a4DJrh5YpwsNXrD_Cl5QtQaixOCWAP_qqNNCaJeQP9p2ASN8mddh3weetIUM6vZT/exec";
-
-const WEDDING_DATE = new Date("2026-08-29T17:00:00");
-
 const steps = [
   ["💍", "💍", "💍"],
   ["❤️", "💍", "❤️"],
@@ -37,6 +33,7 @@ const allSymbols = ["💍", "❤️", "🕊", "✨", "🥂"];
 
 let isSpinning = false;
 let clickLoop = null;
+let rsvpSubmitting = false;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -48,29 +45,6 @@ window.addEventListener("resize", () => {
   resizeCanvas();
   initReels();
 });
-
-function updateCountdown() {
-  const now = new Date();
-  const diff = WEDDING_DATE - now;
-
-  let text = "";
-
-  if (diff <= 0) {
-    text = "Сегодня наш день 💍";
-  } else {
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-
-    text = `До свадьбы осталось ${days} дн. ${hours} ч. ${minutes} мин.`;
-  }
-
-  if (countdownMain) countdownMain.textContent = text;
-  if (countdownDetails) countdownDetails.textContent = text;
-}
-
-updateCountdown();
-setInterval(updateCountdown, 60000);
 
 function getItemHeight() {
   const frame = document.querySelector(".reel-frame");
@@ -214,7 +188,7 @@ function animateStep(stepSymbols, baseDelay = 0) {
 }
 
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function switchScreen(showDetails) {
@@ -340,33 +314,48 @@ if (
   }
 }
 
-if (rsvpForm) {
-  rsvpForm.addEventListener("submit", async (e) => {
+function toggleExtraFields() {
+  const attendingValue = attendingSelect.value;
+  const shouldShow = attendingValue === "Да, буду";
+
+  if (shouldShow) {
+    rsvpExtra.classList.remove("hidden");
+  } else {
+    rsvpExtra.classList.add("hidden");
+  }
+}
+
+attendingSelect.addEventListener("change", toggleExtraFields);
+toggleExtraFields();
+
+hiddenRsvpFrame.addEventListener("load", () => {
+  if (!rsvpSubmitting) return;
+
+  rsvpSubmitting = false;
+  rsvpForm.classList.add("hidden");
+  rsvpSuccess.classList.remove("hidden");
+  rsvpSubmitBtn.disabled = false;
+  rsvpSubmitBtn.textContent = "Отправить ответ";
+});
+
+rsvpForm.addEventListener("submit", (e) => {
+  if (!guestNameInput.value.trim() || !attendingSelect.value) {
     e.preventDefault();
+    alert("Пожалуйста, заполните имя и ваш ответ на приглашение.");
+    return;
+  }
 
-    const submitBtn = rsvpForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Отправляем...";
+  rsvpSubmitting = true;
+  rsvpSubmitBtn.disabled = true;
+  rsvpSubmitBtn.textContent = "Отправляем...";
 
-    const formData = new FormData(rsvpForm);
-    const payload = Object.fromEntries(formData.entries());
-
-    try {
-      await fetch(RSVP_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(payload)
-      });
-
+  setTimeout(() => {
+    if (rsvpSubmitting) {
+      rsvpSubmitting = false;
       rsvpForm.classList.add("hidden");
       rsvpSuccess.classList.remove("hidden");
-    } catch (err) {
-      alert("Не удалось отправить ответ. Попробуйте ещё раз.");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Отправить ответ";
+      rsvpSubmitBtn.disabled = false;
+      rsvpSubmitBtn.textContent = "Отправить ответ";
     }
-  });
-}
+  }, 2500);
+});
