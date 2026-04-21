@@ -2,7 +2,6 @@ const spinBtn = document.getElementById("spinBtn");
 const detailsBtn = document.getElementById("detailsBtn");
 const backBtn = document.getElementById("backBtn");
 const mapBtn = document.getElementById("mapBtn");
-const calendarBtn = document.getElementById("calendarBtn");
 
 const reel1 = document.getElementById("reel1");
 const reel2 = document.getElementById("reel2");
@@ -24,12 +23,14 @@ const steps = [
 
 const allSymbols = ["💍", "❤️", "🕊", "✨", "🥂"];
 let isSpinning = false;
+let clickLoop = null;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 resizeCanvas();
+
 window.addEventListener("resize", () => {
   resizeCanvas();
   initReels();
@@ -80,6 +81,7 @@ function playTone(frequency, duration, type = "sine", volume = 0.03) {
   }
 
   const audioCtx = window.__audioCtx;
+
   if (audioCtx.state === "suspended") {
     audioCtx.resume();
   }
@@ -113,6 +115,24 @@ function playWinSound() {
   playTone(520, 160, "sine", 0.05);
   setTimeout(() => playTone(660, 180, "sine", 0.045), 120);
   setTimeout(() => playTone(880, 220, "sine", 0.04), 240);
+}
+
+function playClickSound() {
+  playTone(1400, 28, "square", 0.015);
+}
+
+function startClickLoop() {
+  stopClickLoop();
+  clickLoop = setInterval(() => {
+    playClickSound();
+  }, 90);
+}
+
+function stopClickLoop() {
+  if (clickLoop) {
+    clearInterval(clickLoop);
+    clickLoop = null;
+  }
 }
 
 function createReelItems(finalSymbol, count = 16) {
@@ -151,9 +171,9 @@ function spinTo(reel, symbol, duration, delay = 0) {
 }
 
 function animateStep(stepSymbols, baseDelay = 0) {
-  const t1 = spinTo(reel1, stepSymbols[0], 760, baseDelay);
-  const t2 = spinTo(reel2, stepSymbols[1], 980, baseDelay + 120);
-  const t3 = spinTo(reel3, stepSymbols[2], 1220, baseDelay + 240);
+  const t1 = spinTo(reel1, stepSymbols[0], 430, baseDelay);
+  const t2 = spinTo(reel2, stepSymbols[1], 560, baseDelay + 70);
+  const t3 = spinTo(reel3, stepSymbols[2], 700, baseDelay + 140);
   return Math.max(t1, t2, t3);
 }
 
@@ -164,6 +184,7 @@ function delay(ms) {
 function switchScreen(showDetails) {
   slotScreen.classList.toggle("active", !showDetails);
   detailsScreen.classList.toggle("active", showDetails);
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 function launchConfetti(duration = 1800) {
@@ -224,17 +245,23 @@ async function startSpin() {
 
   vibrate([40, 40, 70]);
   playStartSound();
+  startClickLoop();
 
-  for (const step of steps) {
-    const endTime = animateStep(step);
-    await delay(endTime + 220);
+  try {
+    for (const step of steps) {
+      const endTime = animateStep(step);
+      await delay(endTime + 80);
+      playClickSound();
+    }
+  } finally {
+    stopClickLoop();
   }
 
   vibrate([90, 40, 120]);
   playWinSound();
   launchConfetti();
 
-  await delay(260);
+  await delay(180);
   resultBlock.classList.remove("hidden");
 
   spinBtn.disabled = false;
@@ -261,34 +288,4 @@ mapBtn.addEventListener("click", () => {
   } else {
     window.open(mapUrl, "_blank");
   }
-});
-
-calendarBtn.addEventListener("click", () => {
-  const icsContent = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Wedding Invite//RU",
-    "BEGIN:VEVENT",
-    "UID:wedding-29082026@invite",
-    "DTSTAMP:20260101T120000Z",
-    "DTSTART:20260829T170000",
-    "DTEND:20260829T220000",
-    "SUMMARY:Alexei & Elizaveta Wedding",
-    "LOCATION:Hill&Valley\\, Samananca Orhei MD\\, MD-3550\\, Teleșeu\\, Moldova",
-    "DESCRIPTION:17:00 Сбор гостей\\n18:00 Церемония\\n19:00 Ужин",
-    "END:VEVENT",
-    "END:VCALENDAR"
-  ].join("\r\n");
-
-  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "alexei-elizaveta-29-08-2026.ics";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
