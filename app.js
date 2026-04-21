@@ -2,14 +2,9 @@ const spinBtn = document.getElementById("spinBtn");
 const detailsBtn = document.getElementById("detailsBtn");
 const backBtn = document.getElementById("backBtn");
 const mapBtn = document.getElementById("mapBtn");
+const formBtn = document.getElementById("formBtn");
 
-const rsvpForm = document.getElementById("rsvpForm");
-const rsvpSuccess = document.getElementById("rsvpSuccess");
-const guestNameInput = document.getElementById("guestName");
-const attendingSelect = document.getElementById("attending");
-const rsvpExtra = document.getElementById("rsvpExtra");
-const hiddenRsvpFrame = document.getElementById("hiddenRsvpFrame");
-const rsvpSubmitBtn = document.getElementById("rsvpSubmitBtn");
+const countdownDetails = document.getElementById("countdownDetails");
 
 const reel1 = document.getElementById("reel1");
 const reel2 = document.getElementById("reel2");
@@ -22,6 +17,15 @@ const detailsScreen = document.getElementById("detailsScreen");
 const canvas = document.getElementById("confettiCanvas");
 const ctx = canvas.getContext("2d");
 
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfFV-lKAObqERc-jrOKJZWou9DocgiFDP2zf__1zfTlp__ejw/viewform?usp=dialog";
+
+const MAP_URL =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent("Hill&Valley, Samananca Orhei MD, MD-3550, Teleșeu, Moldova");
+
+const WEDDING_DATE = new Date("2026-08-29T17:00:00");
+
 const steps = [
   ["💍", "💍", "💍"],
   ["❤️", "💍", "❤️"],
@@ -33,7 +37,6 @@ const allSymbols = ["💍", "❤️", "🕊", "✨", "🥂"];
 
 let isSpinning = false;
 let clickLoop = null;
-let rsvpSubmitting = false;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -45,6 +48,28 @@ window.addEventListener("resize", () => {
   resizeCanvas();
   initReels();
 });
+
+function updateCountdown() {
+  if (!countdownDetails) return;
+
+  const now = new Date();
+  const diff = WEDDING_DATE - now;
+
+  if (diff <= 0) {
+    countdownDetails.textContent = "Сегодня наш день 💍";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+  countdownDetails.textContent =
+    `До свадьбы осталось ${days} дн. ${hours} ч. ${minutes} мин.`;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 60000);
 
 function getItemHeight() {
   const frame = document.querySelector(".reel-frame");
@@ -66,7 +91,7 @@ function initReels() {
 initReels();
 
 function vibrate(pattern = [40]) {
-  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+  if (window.Telegram?.WebApp?.HapticFeedback) {
     try {
       if (Array.isArray(pattern) && pattern.length >= 3) {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
@@ -74,7 +99,7 @@ function vibrate(pattern = [40]) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
       }
       return;
-    } catch (e) {}
+    } catch (_) {}
   }
 
   if (navigator.vibrate) {
@@ -82,19 +107,25 @@ function vibrate(pattern = [40]) {
   }
 }
 
-function playTone(frequency, duration, type = "sine", volume = 0.03) {
+function getAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContextClass) return;
+  if (!AudioContextClass) return null;
 
   if (!window.__audioCtx) {
     window.__audioCtx = new AudioContextClass();
   }
 
   const audioCtx = window.__audioCtx;
-
   if (audioCtx.state === "suspended") {
     audioCtx.resume();
   }
+
+  return audioCtx;
+}
+
+function playTone(frequency, duration, type = "sine", volume = 0.03) {
+  const audioCtx = getAudioContext();
+  if (!audioCtx) return;
 
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
@@ -188,13 +219,21 @@ function animateStep(stepSymbols, baseDelay = 0) {
 }
 
 function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function switchScreen(showDetails) {
   slotScreen.classList.toggle("active", !showDetails);
   detailsScreen.classList.toggle("active", showDetails);
   window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function openExternal(url) {
+  if (window.Telegram?.WebApp?.openLink) {
+    window.Telegram.WebApp.openLink(url);
+  } else {
+    window.open(url, "_blank");
+  }
 }
 
 function launchConfetti(duration = 1800) {
@@ -288,74 +327,10 @@ backBtn.addEventListener("click", () => {
   switchScreen(false);
 });
 
-const mapUrl =
-  "https://www.google.com/maps/search/?api=1&query=" +
-  encodeURIComponent("Hill&Valley, Samananca Orhei MD, MD-3550, Teleșeu, Moldova");
-
 mapBtn.addEventListener("click", () => {
-  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
-    window.Telegram.WebApp.openLink(mapUrl);
-  } else {
-    window.open(mapUrl, "_blank");
-  }
+  openExternal(MAP_URL);
 });
 
-if (
-  guestNameInput &&
-  window.Telegram &&
-  window.Telegram.WebApp &&
-  window.Telegram.WebApp.initDataUnsafe &&
-  window.Telegram.WebApp.initDataUnsafe.user
-) {
-  const user = window.Telegram.WebApp.initDataUnsafe.user;
-  const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
-  if (fullName) {
-    guestNameInput.value = fullName;
-  }
-}
-
-function toggleExtraFields() {
-  const attendingValue = attendingSelect.value;
-  const shouldShow = attendingValue === "Да, буду";
-
-  if (shouldShow) {
-    rsvpExtra.classList.remove("hidden");
-  } else {
-    rsvpExtra.classList.add("hidden");
-  }
-}
-
-attendingSelect.addEventListener("change", toggleExtraFields);
-toggleExtraFields();
-
-hiddenRsvpFrame.addEventListener("load", () => {
-  if (!rsvpSubmitting) return;
-
-  rsvpSubmitting = false;
-  rsvpForm.classList.add("hidden");
-  rsvpSuccess.classList.remove("hidden");
-  rsvpSubmitBtn.disabled = false;
-  rsvpSubmitBtn.textContent = "Отправить ответ";
-});
-
-rsvpForm.addEventListener("submit", (e) => {
-  if (!guestNameInput.value.trim() || !attendingSelect.value) {
-    e.preventDefault();
-    alert("Пожалуйста, заполните имя и ваш ответ на приглашение.");
-    return;
-  }
-
-  rsvpSubmitting = true;
-  rsvpSubmitBtn.disabled = true;
-  rsvpSubmitBtn.textContent = "Отправляем...";
-
-  setTimeout(() => {
-    if (rsvpSubmitting) {
-      rsvpSubmitting = false;
-      rsvpForm.classList.add("hidden");
-      rsvpSuccess.classList.remove("hidden");
-      rsvpSubmitBtn.disabled = false;
-      rsvpSubmitBtn.textContent = "Отправить ответ";
-    }
-  }, 2500);
+formBtn.addEventListener("click", () => {
+  openExternal(FORM_URL);
 });
