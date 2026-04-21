@@ -3,6 +3,13 @@ const detailsBtn = document.getElementById("detailsBtn");
 const backBtn = document.getElementById("backBtn");
 const mapBtn = document.getElementById("mapBtn");
 
+const rsvpForm = document.getElementById("rsvpForm");
+const rsvpSuccess = document.getElementById("rsvpSuccess");
+const guestNameInput = document.getElementById("guestName");
+
+const countdownMain = document.getElementById("countdownMain");
+const countdownDetails = document.getElementById("countdownDetails");
+
 const reel1 = document.getElementById("reel1");
 const reel2 = document.getElementById("reel2");
 const reel3 = document.getElementById("reel3");
@@ -14,6 +21,11 @@ const detailsScreen = document.getElementById("detailsScreen");
 const canvas = document.getElementById("confettiCanvas");
 const ctx = canvas.getContext("2d");
 
+const RSVP_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbz0a4DJrh5YpwsNXrD_Cl5QtQaixOCWAP_qqNNCaJeQP9p2ASN8mddh3weetIUM6vZT/exec";
+
+const WEDDING_DATE = new Date("2026-08-29T17:00:00");
+
 const steps = [
   ["💍", "💍", "💍"],
   ["❤️", "💍", "❤️"],
@@ -22,6 +34,7 @@ const steps = [
 ];
 
 const allSymbols = ["💍", "❤️", "🕊", "✨", "🥂"];
+
 let isSpinning = false;
 let clickLoop = null;
 
@@ -35,6 +48,29 @@ window.addEventListener("resize", () => {
   resizeCanvas();
   initReels();
 });
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = WEDDING_DATE - now;
+
+  let text = "";
+
+  if (diff <= 0) {
+    text = "Сегодня наш день 💍";
+  } else {
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    text = `До свадьбы осталось ${days} дн. ${hours} ч. ${minutes} мин.`;
+  }
+
+  if (countdownMain) countdownMain.textContent = text;
+  if (countdownDetails) countdownDetails.textContent = text;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 60000);
 
 function getItemHeight() {
   const frame = document.querySelector(".reel-frame");
@@ -189,7 +225,7 @@ function switchScreen(showDetails) {
 
 function launchConfetti(duration = 1800) {
   const particles = [];
-  const colors = ["#ffffff", "#ffdbe8", "#ffe9ef", "#ffd1dc", "#fff0f4", "#fff7d9"];
+  const colors = ["#ffffff", "#f4d6cf", "#e8b06d", "#e76a4d", "#6f7f32", "#f7f2ea"];
 
   for (let i = 0; i < 180; i++) {
     particles.push({
@@ -211,7 +247,7 @@ function launchConfetti(duration = 1800) {
     const elapsed = now - start;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    particles.forEach(p => {
+    particles.forEach((p) => {
       p.x += Math.cos(p.angle) * p.speed;
       p.y += Math.sin(p.angle) * p.speed + p.vy;
       p.speed *= 0.985;
@@ -289,3 +325,48 @@ mapBtn.addEventListener("click", () => {
     window.open(mapUrl, "_blank");
   }
 });
+
+if (
+  guestNameInput &&
+  window.Telegram &&
+  window.Telegram.WebApp &&
+  window.Telegram.WebApp.initDataUnsafe &&
+  window.Telegram.WebApp.initDataUnsafe.user
+) {
+  const user = window.Telegram.WebApp.initDataUnsafe.user;
+  const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
+  if (fullName) {
+    guestNameInput.value = fullName;
+  }
+}
+
+if (rsvpForm) {
+  rsvpForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Отправляем...";
+
+    const formData = new FormData(rsvpForm);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      await fetch(RSVP_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      rsvpForm.classList.add("hidden");
+      rsvpSuccess.classList.remove("hidden");
+    } catch (err) {
+      alert("Не удалось отправить ответ. Попробуйте ещё раз.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Отправить ответ";
+    }
+  });
+}
