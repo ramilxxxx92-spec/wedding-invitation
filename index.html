@@ -88,6 +88,11 @@
         <div class="tiny-label">DETAILS</div>
         <h2 class="info-title">29.08.2026</h2>
 
+        <div class="countdown-card">
+          <div class="detail-label">Countdown</div>
+          <div id="countdownDetails" class="countdown-big">До свадьбы осталось ...</div>
+        </div>
+
         <div class="detail-card story-card">
           <div class="detail-label">Приглашение</div>
 
@@ -145,92 +150,13 @@
 
         <div class="detail-card">
           <div class="detail-label">RSVP</div>
-
-          <iframe name="hiddenRsvpFrame" id="hiddenRsvpFrame" class="hidden-iframe"></iframe>
-
-          <form
-            id="rsvpForm"
-            class="rsvp-form"
-            action="https://script.google.com/macros/s/AKfycbz0a4DJrh5YpwsNXrD_Cl5QtQaixOCWAP_qqNNCaJeQP9p2ASN8mddh3weetIUM6vZT/exec"
-            method="POST"
-            target="hiddenRsvpFrame"
-          >
-            <div class="field-group">
-              <label class="form-label" for="guestName">1. Имя</label>
-              <input
-                type="text"
-                name="guest_name"
-                id="guestName"
-                placeholder="Введите ваше имя"
-                required
-              />
-            </div>
-
-            <div class="field-group">
-              <label class="form-label" for="attending">2. Ваш ответ на приглашение</label>
-              <select name="attending" id="attending" required>
-                <option value="">Выберите ответ</option>
-                <option value="Да, буду">Да, буду</option>
-                <option value="К сожалению, не смогу">К сожалению, не смогу</option>
-              </select>
-            </div>
-
-            <div id="rsvpExtra">
-              <div class="field-group">
-                <label class="form-label" for="plusOne">3. Будете с +1?</label>
-                <select name="plus_one" id="plusOne">
-                  <option value="">Выберите ответ</option>
-                  <option value="Нет">Нет</option>
-                  <option value="Да">Да</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="form-label" for="transfer">4. Нужен ли трансфер?</label>
-                <select name="transfer" id="transfer">
-                  <option value="">Выберите ответ</option>
-                  <option value="Нет">Нет</option>
-                  <option value="Да">Да</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="form-label" for="dietary">5. Ограничения по еде</label>
-                <textarea
-                  name="dietary"
-                  id="dietary"
-                  placeholder="Например: вегетарианство, аллергии, без глютена"
-                ></textarea>
-              </div>
-
-              <div class="field-group">
-                <label class="form-label" for="children">6. Будут ли дети?</label>
-                <input
-                  type="text"
-                  name="children"
-                  id="children"
-                  placeholder="Например: нет / да, 1 ребёнок"
-                />
-              </div>
-
-              <div class="field-group">
-                <label class="form-label" for="comment">Комментарий</label>
-                <textarea
-                  name="comment"
-                  id="comment"
-                  placeholder="Если хотите что-то добавить"
-                ></textarea>
-              </div>
-            </div>
-
-            <button type="submit" class="secondary-btn wide-btn" id="rsvpSubmitBtn">
-              Отправить ответ
-            </button>
-          </form>
-
-          <div id="rsvpSuccess" class="rsvp-success hidden">
-            Спасибо! Ваш ответ сохранён 💌
+          <div class="rsvp-text">
+            Пожалуйста, подтвердите своё присутствие в форме.
           </div>
+
+          <button id="formBtn" class="secondary-btn wide-btn">
+            Заполнить RSVP
+          </button>
         </div>
 
         <button id="backBtn" class="ghost-btn">Назад</button>
