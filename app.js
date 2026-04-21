@@ -1,14 +1,16 @@
 const spinBtn = document.getElementById("spinBtn");
-const scheduleBtn = document.getElementById("scheduleBtn");
+const detailsBtn = document.getElementById("detailsBtn");
 const backBtn = document.getElementById("backBtn");
+const mapBtn = document.getElementById("mapBtn");
+const calendarBtn = document.getElementById("calendarBtn");
 
 const reel1 = document.getElementById("reel1");
 const reel2 = document.getElementById("reel2");
 const reel3 = document.getElementById("reel3");
 
-const winOverlay = document.getElementById("winOverlay");
+const resultBlock = document.getElementById("resultBlock");
 const slotScreen = document.getElementById("slotScreen");
-const scheduleScreen = document.getElementById("scheduleScreen");
+const detailsScreen = document.getElementById("detailsScreen");
 
 const canvas = document.getElementById("confettiCanvas");
 const ctx = canvas.getContext("2d");
@@ -35,7 +37,7 @@ window.addEventListener("resize", () => {
 
 function getItemHeight() {
   const frame = document.querySelector(".reel-frame");
-  return frame ? frame.clientHeight : 100;
+  return frame ? frame.clientHeight : 136;
 }
 
 function setReelSingle(reel, symbol) {
@@ -103,9 +105,8 @@ function playTone(frequency, duration, type = "sine", volume = 0.03) {
 }
 
 function playStartSound() {
-  playTone(210, 90, "triangle", 0.04);
-  setTimeout(() => playTone(250, 110, "triangle", 0.035), 90);
-  setTimeout(() => playTone(290, 120, "triangle", 0.03), 180);
+  playTone(220, 100, "triangle", 0.04);
+  setTimeout(() => playTone(260, 120, "triangle", 0.03), 90);
 }
 
 function playWinSound() {
@@ -160,19 +161,19 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function switchScreen(showSchedule) {
-  slotScreen.classList.toggle("active", !showSchedule);
-  scheduleScreen.classList.toggle("active", showSchedule);
+function switchScreen(showDetails) {
+  slotScreen.classList.toggle("active", !showDetails);
+  detailsScreen.classList.toggle("active", showDetails);
 }
 
 function launchConfetti(duration = 1800) {
   const particles = [];
   const colors = ["#ffffff", "#ffdbe8", "#ffe9ef", "#ffd1dc", "#fff0f4", "#fff7d9"];
 
-  for (let i = 0; i < 190; i++) {
+  for (let i = 0; i < 180; i++) {
     particles.push({
       x: canvas.width / 2,
-      y: canvas.height * 0.24,
+      y: canvas.height * 0.2,
       r: Math.random() * 4 + 2,
       color: colors[Math.floor(Math.random() * colors.length)],
       angle: Math.random() * Math.PI * 2,
@@ -219,7 +220,7 @@ async function startSpin() {
   isSpinning = true;
 
   spinBtn.disabled = true;
-  winOverlay.classList.add("hidden");
+  resultBlock.classList.add("hidden");
 
   vibrate([40, 40, 70]);
   playStartSound();
@@ -234,7 +235,7 @@ async function startSpin() {
   launchConfetti();
 
   await delay(260);
-  winOverlay.classList.remove("hidden");
+  resultBlock.classList.remove("hidden");
 
   spinBtn.disabled = false;
   isSpinning = false;
@@ -242,10 +243,52 @@ async function startSpin() {
 
 spinBtn.addEventListener("click", startSpin);
 
-scheduleBtn.addEventListener("click", () => {
+detailsBtn.addEventListener("click", () => {
   switchScreen(true);
 });
 
 backBtn.addEventListener("click", () => {
   switchScreen(false);
+});
+
+const mapUrl =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent("Hill&Valley, Samananca Orhei MD, MD-3550, Teleșeu, Moldova");
+
+mapBtn.addEventListener("click", () => {
+  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+    window.Telegram.WebApp.openLink(mapUrl);
+  } else {
+    window.open(mapUrl, "_blank");
+  }
+});
+
+calendarBtn.addEventListener("click", () => {
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Wedding Invite//RU",
+    "BEGIN:VEVENT",
+    "UID:wedding-29082026@invite",
+    "DTSTAMP:20260101T120000Z",
+    "DTSTART:20260829T170000",
+    "DTEND:20260829T220000",
+    "SUMMARY:Alexei & Elizaveta Wedding",
+    "LOCATION:Hill&Valley\\, Samananca Orhei MD\\, MD-3550\\, Teleșeu\\, Moldova",
+    "DESCRIPTION:17:00 Сбор гостей\\n18:00 Церемония\\n19:00 Ужин",
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+
+  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "alexei-elizaveta-29-08-2026.ics";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
