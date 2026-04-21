@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <title>Alexei & Elizaveta</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -14,67 +17,122 @@
 
   <main class="app">
     <section id="slotScreen" class="screen active">
-      <div class="hero-card">
-        <div class="machine-wrap">
-          <img src="machine.png" alt="Slot machine" class="machine-image" />
+      <div class="hero-card glass">
+        <div class="hero-head">
+          <div class="tiny-label">WEDDING INVITATION</div>
+          <h1 class="names">Alexei & Elizaveta</h1>
+          <p class="subtitle">Try your luck and open our day</p>
+        </div>
 
-          <div class="slot-overlay">
-            <div class="reel-frame">
-              <div class="reel" id="reel1">
-                <div class="symbol">💍</div>
+        <div class="machine glass-strong">
+          <div class="machine-cap">
+            <div class="lamp-row">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="machine-body">
+            <div class="machine-top-panel">
+              <div class="hearts-row">
+                <span>♡</span>
+                <span>♡</span>
+                <span>♡</span>
+                <span>♡</span>
+                <span>♡</span>
               </div>
             </div>
-            <div class="reel-frame">
-              <div class="reel" id="reel2">
-                <div class="symbol">💍</div>
+
+            <div class="slot-window">
+              <div class="reel-frame">
+                <div class="reel" id="reel1">
+                  <div class="symbol">💍</div>
+                </div>
               </div>
+
+              <div class="reel-frame">
+                <div class="reel" id="reel2">
+                  <div class="symbol">💍</div>
+                </div>
+              </div>
+
+              <div class="reel-frame">
+                <div class="reel" id="reel3">
+                  <div class="symbol">💍</div>
+                </div>
+              </div>
+
+              <div class="payline"></div>
             </div>
-            <div class="reel-frame">
-              <div class="reel" id="reel3">
-                <div class="symbol">💍</div>
-              </div>
+
+            <div class="machine-controls">
+              <div class="mini-panel"></div>
+              <button id="spinBtn" class="main-btn">Крутить</button>
+              <div class="mini-panel"></div>
             </div>
           </div>
         </div>
 
-        <div class="controls">
-          <button id="spinBtn" class="main-btn">Крутить</button>
-        </div>
-
-        <div id="winOverlay" class="win-overlay hidden">
+        <div id="resultBlock" class="result-block hidden">
           <p class="win-text">Wedding jackpot</p>
           <h2 class="final-date">29.08.2026</h2>
-          <button id="scheduleBtn" class="secondary-btn">Смотреть расписание</button>
+          <button id="detailsBtn" class="secondary-btn">Подробнее</button>
         </div>
       </div>
     </section>
 
-    <section id="scheduleScreen" class="screen">
-      <div class="info-card">
-        <span class="tiny-label">SCHEDULE</span>
-        <h2 class="info-title">Расписание дня</h2>
+    <section id="detailsScreen" class="screen">
+      <div class="info-card glass">
+        <div class="tiny-label">DETAILS</div>
+        <h2 class="info-title">Подробнее</h2>
 
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-time">17:00</div>
-            <div class="timeline-text">Сбор гостей</div>
+        <div class="detail-card">
+          <div class="detail-label">Место</div>
+          <div class="place-title">Hill&Valley</div>
+          <div class="place-address">
+            Samananca Orhei MD, MD-3550, Teleșeu, Moldova
           </div>
-          <div class="timeline-item">
-            <div class="timeline-time">17:30</div>
-            <div class="timeline-text">Церемония</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-time">18:30</div>
-            <div class="timeline-text">Праздничный ужин</div>
-          </div>
+
+          <button id="mapBtn" class="secondary-btn wide-btn">
+            Открыть карту
+          </button>
         </div>
 
-        <button id="backBtn" class="secondary-btn">Назад</button>
+        <div class="detail-card">
+          <div class="detail-label">Тайминг</div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">17:00</div>
+              <div class="timeline-text">Сбор гостей</div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">18:00</div>
+              <div class="timeline-text">Церемония</div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-time">19:00</div>
+              <div class="timeline-text">Ужин</div>
+            </div>
+          </div>
+
+          <button id="calendarBtn" class="secondary-btn wide-btn">
+            Внести в расписание
+          </button>
+        </div>
+
+        <button id="backBtn" class="ghost-btn">Назад</button>
       </div>
     </section>
   </main>
 
   <canvas id="confettiCanvas"></canvas>
+
   <script src="app.js"></script>
 </body>
 </html>
