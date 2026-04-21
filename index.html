@@ -13,6 +13,7 @@
 <body>
   <div class="bg bg-1"></div>
   <div class="bg bg-2"></div>
+  <div class="bg bg-3"></div>
   <div class="grain"></div>
 
   <main class="app">
@@ -22,6 +23,11 @@
           <div class="tiny-label">WEDDING INVITATION</div>
           <h1 class="names">Alexei & Elizaveta</h1>
           <p class="subtitle">Try your luck and open our day</p>
+
+          <div class="countdown-pill">
+            <span class="countdown-dot"></span>
+            <span id="countdownMain">До свадьбы осталось ...</span>
+          </div>
         </div>
 
         <div class="machine glass-strong">
@@ -64,8 +70,6 @@
                   <div class="symbol">💍</div>
                 </div>
               </div>
-
-              <div class="payline"></div>
             </div>
 
             <div class="machine-controls">
@@ -87,7 +91,34 @@
     <section id="detailsScreen" class="screen">
       <div class="info-card glass">
         <div class="tiny-label">DETAILS</div>
-        <h2 class="info-title">Подробнее</h2>
+        <h2 class="info-title">29.08.2026</h2>
+
+        <div class="countdown-card">
+          <div class="detail-label">Countdown</div>
+          <div id="countdownDetails" class="countdown-big">До свадьбы осталось ...</div>
+        </div>
+
+        <div class="detail-card story-card">
+          <div class="detail-label">Приглашение</div>
+
+          <div class="story-text">
+            <p>
+              В жизни есть события, которые обретают истинный смысл только тогда,
+              когда ими делишься с самыми важными людьми. Для нас этот день — не
+              просто праздник, а возможность сказать спасибо тем, кто наполняет
+              нашу жизнь светом и теплом.
+            </p>
+
+            <p>
+              Вы — часть нашей истории, и ваше присутствие сделает этот день
+              по-настоящему особенным.
+            </p>
+
+            <p>
+              Приглашаем вас разделить с нами моменты радости, искренних улыбок и любви.
+            </p>
+          </div>
+        </div>
 
         <div class="detail-card">
           <div class="detail-label">Место</div>
@@ -119,6 +150,50 @@
               <div class="timeline-time">19:00</div>
               <div class="timeline-text">Ужин</div>
             </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-label">RSVP</div>
+
+          <form id="rsvpForm" class="rsvp-form">
+            <input
+              type="text"
+              name="guest_name"
+              id="guestName"
+              placeholder="Ваше имя"
+              required
+            />
+
+            <select name="attending" required>
+              <option value="">Будете?</option>
+              <option value="Да">Да, буду</option>
+              <option value="Нет">К сожалению, не смогу</option>
+            </select>
+
+            <select name="plus_one">
+              <option value="">Будете с +1?</option>
+              <option value="Нет">Нет</option>
+              <option value="Да">Да</option>
+            </select>
+
+            <select name="transfer">
+              <option value="">Нужен ли трансфер?</option>
+              <option value="Нет">Нет</option>
+              <option value="Да">Да</option>
+            </select>
+
+            <input type="text" name="dietary" placeholder="Ограничения по еде" />
+            <input type="text" name="children" placeholder="Будут ли дети?" />
+            <textarea name="comment" placeholder="Комментарий"></textarea>
+
+            <button type="submit" class="secondary-btn wide-btn">
+              Отправить ответ
+            </button>
+          </form>
+
+          <div id="rsvpSuccess" class="rsvp-success hidden">
+            Спасибо! Ваш ответ сохранён 💌
           </div>
         </div>
 
