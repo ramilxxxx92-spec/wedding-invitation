@@ -7,8 +7,6 @@
   --stroke: rgba(255, 255, 255, 0.48);
 
   --ivory: #f9f5ee;
-  --blush: #efd7d1;
-  --rose: #dca7a2;
   --burgundy: #6f3842;
   --burgundy-soft: #8b4f5a;
   --olive: #6f7f32;
@@ -313,7 +311,6 @@ body {
   cursor: default;
 }
 
-.resultBlock,
 .result-block {
   margin-top: 18px;
   text-align: center;
@@ -347,6 +344,21 @@ body {
   margin: 0 0 14px;
   font-size: 30px;
   color: var(--burgundy);
+}
+
+.countdown-card {
+  background: rgba(255,255,255,0.36);
+  border: 1px solid rgba(255,255,255,0.34);
+  border-radius: 24px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.countdown-big {
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--olive);
+  font-weight: 700;
 }
 
 .detail-card {
@@ -425,57 +437,11 @@ body {
   color: rgba(92, 70, 82, 0.96);
 }
 
-.field-group {
-  margin-bottom: 12px;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--burgundy);
-}
-
-.rsvp-form {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 8px;
-}
-
-.rsvp-form input,
-.rsvp-form select,
-.rsvp-form textarea {
-  width: 100%;
-  border: 1px solid rgba(255,255,255,0.40);
-  background: rgba(255,255,255,0.72);
-  border-radius: 16px;
-  padding: 14px 14px;
+.rsvp-text {
   font-size: 15px;
+  line-height: 1.5;
   color: rgba(92, 70, 82, 0.96);
-  outline: none;
-  appearance: none;
-}
-
-.rsvp-form textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.rsvp-form input::placeholder,
-.rsvp-form textarea::placeholder {
-  color: rgba(127, 93, 111, 0.72);
-}
-
-.rsvp-success {
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.58);
-  color: var(--burgundy);
-  font-weight: 600;
-  text-align: center;
+  margin-bottom: 14px;
 }
 
 .secondary-btn {
@@ -495,10 +461,6 @@ body {
 
 .wide-btn {
   width: 100%;
-}
-
-.hidden-iframe {
-  display: none;
 }
 
 #confettiCanvas {
@@ -545,5 +507,9 @@ body {
 
   .final-date {
     font-size: 34px;
+  }
+
+  .countdown-big {
+    font-size: 20px;
   }
 }
