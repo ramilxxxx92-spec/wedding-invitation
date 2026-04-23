@@ -3,6 +3,7 @@ const detailsBtn = document.getElementById("detailsBtn");
 const backBtn = document.getElementById("backBtn");
 const mapBtn = document.getElementById("mapBtn");
 const formBtn = document.getElementById("formBtn");
+const dressBtn = document.getElementById("dressBtn");
 
 const countdownDetails = document.getElementById("countdownDetails");
 
@@ -19,6 +20,8 @@ const ctx = canvas.getContext("2d");
 
 const FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSfFV-lKAObqERc-jrOKJZWou9DocgiFDP2zf__1zfTlp__ejw/viewform?usp=dialog";
+
+const DRESS_URL = "https://pin.it/4NictOtLV";
 
 const MAP_URL =
   "https://www.google.com/maps/search/?api=1&query=" +
@@ -225,7 +228,7 @@ function delay(ms) {
 function switchScreen(showDetails) {
   slotScreen.classList.toggle("active", !showDetails);
   detailsScreen.classList.toggle("active", showDetails);
-  window.scrollTo({ top: 0, behavior: "instant" });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function openExternal(url) {
@@ -333,4 +336,8 @@ mapBtn.addEventListener("click", () => {
 
 formBtn.addEventListener("click", () => {
   openExternal(FORM_URL);
+});
+
+dressBtn.addEventListener("click", () => {
+  openExternal(DRESS_URL);
 });
