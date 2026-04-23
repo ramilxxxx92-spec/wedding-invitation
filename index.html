@@ -17,6 +17,7 @@
   <div class="grain"></div>
 
   <main class="app">
+    <!-- 1 SCREEN -->
     <section id="slotScreen" class="screen active">
       <div class="hero-card glass">
         <div class="hero-head">
@@ -69,38 +70,31 @@
 
             <div class="machine-controls">
               <div class="mini-panel"></div>
-              <button id="spinBtn" class="main-btn">spin</button>
+              <button id="spinBtn" class="main-btn">SPIN</button>
               <div class="mini-panel"></div>
             </div>
           </div>
         </div>
 
         <div id="resultBlock" class="result-block hidden">
-          <p class="win-text">Wedding jackpot</p>
-          <h2 class="final-date">29.08.2026</h2>
+          <h2 class="jackpot-title">WEDDING JACKPOT</h2>
           <button id="detailsBtn" class="secondary-btn">Подробнее</button>
         </div>
       </div>
     </section>
 
+    <!-- 2 SCREEN -->
     <section id="detailsScreen" class="screen">
       <div class="info-card glass">
         <div class="tiny-label">DETAILS</div>
-  
-
-        <div class="countdown-card">
-          <div class="detail-label">Countdown</div>
-          <div id="countdownDetails" class="countdown-big">До свадьбы осталось ...</div>
-        </div>
+        <h2 class="info-title">ДОРОГИЕ ГОСТИ !</h2>
 
         <div class="detail-card story-card">
-          <div class="detail-label">Дорогие гости!</div>
-
           <div class="story-text">
             <p>
               В жизни есть события, которые обретают истинный смысл только тогда,
-              когда ими делишься с самыми важными людьми. 
-              Для нас этот день — не просто праздник, а возможность сказать спасибо тем, кто наполняет
+              когда ими делишься с самыми важными людьми. Для нас этот день — не
+              просто праздник, а возможность сказать спасибо тем, кто наполняет
               нашу жизнь светом и теплом.
             </p>
 
@@ -112,12 +106,22 @@
             <p>
               Приглашаем вас разделить с нами моменты радости, искренних улыбок и любви.
             </p>
+
+            <p>
+              Ваши улыбки — лучшее украшение праздника, поэтому мы просим вас
+              воздержаться от покупки цветов.
+            </p>
           </div>
         </div>
 
+        <div class="countdown-card">
+          <div class="detail-label">До начала свадьбы</div>
+          <div id="countdownDetails" class="countdown-big">До свадьбы осталось ...</div>
+        </div>
+
         <div class="detail-card">
-          <div class="detail-label">Место</div>
-          <h2 class="info-title">29.08.2026</h2>
+          <div class="detail-label">Дата и место</div>
+          <div class="event-date">29.08.2026</div>
           <div class="place-title">Hill&Valley</div>
           <div class="place-address">
             Samananca Orhei MD, MD-3550, Teleșeu, Moldova
@@ -150,13 +154,22 @@
         </div>
 
         <div class="detail-card">
-          <div class="detail-label">Будете ли вы с нами в этот день?</div>
+          <div class="detail-label">RSVP</div>
           <div class="rsvp-text">
-            Пожалуйста, подтвердите своё присутствие в форме.
+            Пожалуйста, подтвердите своё присутствие, заполнив короткую форму.
           </div>
-
           <button id="formBtn" class="secondary-btn wide-btn">
-            Заполнить
+            Подтвердить присутствие
+          </button>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-label">Dress code</div>
+          <div class="rsvp-text">
+            Посмотреть дресс-код и вдохновиться образами можно по кнопке ниже.
+          </div>
+          <button id="dressBtn" class="secondary-btn wide-btn">
+            Посмотреть дресс-код и вдохновиться
           </button>
         </div>
 
