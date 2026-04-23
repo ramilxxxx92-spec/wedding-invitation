@@ -6,13 +6,14 @@
   --glass-strong: rgba(255, 255, 255, 0.34);
   --stroke: rgba(255, 255, 255, 0.48);
 
-  --ivory: #f9f5ee;
+  --ivory: #fffaf4;
   --burgundy: #6f3842;
   --burgundy-soft: #8b4f5a;
   --olive: #6f7f32;
+  --gold-soft: #d9b777;
 
-  --machine-border: rgba(143, 126, 132, 0.78);
-  --machine-panel: rgba(212, 196, 201, 0.76);
+  --machine-border: rgba(128, 108, 116, 0.9);
+  --machine-panel: rgba(230, 218, 221, 0.92);
 
   --shadow: 0 24px 60px rgba(120, 88, 92, 0.12);
   --shadow-soft: 0 14px 30px rgba(120, 88, 92, 0.08);
@@ -136,7 +137,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(111, 56, 66, 0.58);
+  color: rgba(111, 56, 66, 0.65);
   margin-bottom: 10px;
   font-weight: 700;
 }
@@ -155,6 +156,7 @@ body {
   color: var(--burgundy-soft);
 }
 
+/* SLOT */
 .machine {
   position: relative;
   border-radius: 36px;
@@ -170,19 +172,26 @@ body {
 
 .lamp-row {
   display: flex;
-  gap: 10px;
-  padding: 10px 16px;
+  gap: 12px;
+  padding: 12px 18px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.32);
+  background: rgba(120, 78, 88, 0.28);
+  border: 1px solid rgba(255,255,255,0.32);
+  box-shadow:
+    0 8px 18px rgba(111, 56, 66, 0.12),
+    inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 .lamp-row span {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: var(--ivory);
-  box-shadow: 0 0 14px rgba(255,255,255,0.55);
-  animation: pulseLight 1.8s infinite ease-in-out;
+  background: #fffef9;
+  box-shadow:
+    0 0 12px rgba(255,255,255,0.95),
+    0 0 20px rgba(255, 242, 200, 0.72),
+    0 0 30px rgba(255, 226, 143, 0.35);
+  animation: pulseLight 1.6s infinite ease-in-out;
 }
 
 .lamp-row span:nth-child(2) { animation-delay: 0.15s; }
@@ -208,9 +217,10 @@ body {
   gap: 12px;
   padding: 9px 16px;
   border-radius: 999px;
-  background: rgba(169, 151, 158, 0.52);
+  background: rgba(130, 91, 101, 0.54);
   color: var(--ivory);
   font-size: 16px;
+  font-weight: 700;
 }
 
 .slot-window {
@@ -221,8 +231,10 @@ body {
   padding: 12px;
   border-radius: 24px;
   background: var(--machine-border);
-  border: 1px solid rgba(255,255,255,0.14);
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 0 20px rgba(255,255,255,0.08),
+    0 8px 20px rgba(111, 56, 66, 0.08);
 }
 
 .reel-frame {
@@ -230,7 +242,7 @@ body {
   height: 136px;
   overflow: hidden;
   border-radius: 22px;
-  background: linear-gradient(180deg, #fdfaf7, #f5efea);
+  background: linear-gradient(180deg, #fffdfb, #f7f0ea);
   box-shadow:
     inset 0 10px 18px rgba(255,255,255,0.22),
     inset 0 -10px 16px rgba(186, 170, 165, 0.10);
@@ -282,6 +294,7 @@ body {
   background: var(--machine-panel);
 }
 
+/* BUTTONS */
 .main-btn,
 .secondary-btn,
 .ghost-btn {
@@ -300,10 +313,11 @@ body {
 }
 
 .main-btn {
-  background: rgba(255,255,255,0.96);
+  background: rgba(255,255,255,0.97);
   color: var(--burgundy);
-  font-weight: 650;
-  box-shadow: 0 10px 22px rgba(111, 56, 66, 0.08);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  box-shadow: 0 10px 22px rgba(111, 56, 66, 0.12);
 }
 
 .main-btn:disabled {
@@ -311,8 +325,28 @@ body {
   cursor: default;
 }
 
+.secondary-btn {
+  background: rgba(255,255,255,0.95);
+  color: var(--burgundy);
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(111, 56, 66, 0.08);
+}
+
+.ghost-btn {
+  width: 100%;
+  background: rgba(255,255,255,0.52);
+  color: var(--burgundy);
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.34);
+}
+
+.wide-btn {
+  width: 100%;
+}
+
+/* RESULT */
 .result-block {
-  margin-top: 18px;
+  margin-top: 20px;
   text-align: center;
   animation: revealUp 0.7s ease both;
   padding-bottom: 4px;
@@ -324,26 +358,22 @@ body {
   display: none !important;
 }
 
-.win-text {
-  margin: 0 0 8px;
-  color: var(--burgundy-soft);
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.final-date {
+.jackpot-title {
   margin: 0 0 16px;
-  font-size: 40px;
-  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--burgundy);
 }
 
+/* DETAILS */
 .info-title {
   margin: 0 0 14px;
   font-size: 30px;
   color: var(--burgundy);
+  text-align: center;
 }
 
 .countdown-card {
@@ -379,19 +409,29 @@ body {
 }
 
 .story-card {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0.30));
+  background: linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0.30));
+}
+
+.story-text {
+  text-align: left;
 }
 
 .story-text p {
   margin: 0 0 12px;
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.72;
   color: rgba(98, 70, 76, 0.96);
 }
 
 .story-text p:last-child {
   margin-bottom: 0;
+}
+
+.event-date {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--burgundy);
+  margin-bottom: 8px;
 }
 
 .place-title {
@@ -403,8 +443,8 @@ body {
 
 .place-address {
   font-size: 15px;
-  line-height: 1.45;
-  color: rgba(110, 84, 98, 0.92);
+  line-height: 1.5;
+  color: rgba(110, 84, 98, 0.94);
   margin-bottom: 14px;
 }
 
@@ -439,28 +479,9 @@ body {
 
 .rsvp-text {
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: rgba(92, 70, 82, 0.96);
   margin-bottom: 14px;
-}
-
-.secondary-btn {
-  background: rgba(255,255,255,0.94);
-  color: var(--burgundy);
-  font-weight: 650;
-  box-shadow: 0 10px 24px rgba(111, 56, 66, 0.07);
-}
-
-.ghost-btn {
-  width: 100%;
-  background: rgba(255,255,255,0.52);
-  color: var(--burgundy);
-  font-weight: 600;
-  border: 1px solid rgba(255,255,255,0.34);
-}
-
-.wide-btn {
-  width: 100%;
 }
 
 #confettiCanvas {
@@ -472,12 +493,12 @@ body {
 
 @keyframes pulseLight {
   0%, 100% {
-    opacity: 0.45;
+    opacity: 0.65;
     transform: scale(1);
   }
   50% {
     opacity: 1;
-    transform: scale(1.22);
+    transform: scale(1.28);
   }
 }
 
@@ -505,11 +526,15 @@ body {
     font-size: 42px;
   }
 
-  .final-date {
-    font-size: 34px;
+  .jackpot-title {
+    font-size: 28px;
   }
 
   .countdown-big {
     font-size: 20px;
+  }
+
+  .event-date {
+    font-size: 24px;
   }
 }
